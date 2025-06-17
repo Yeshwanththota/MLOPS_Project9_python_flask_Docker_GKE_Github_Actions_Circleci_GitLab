@@ -1,0 +1,4 @@
+venv/
+*.ipynb
+MLOPS_project9.egg-info/
+logs/
