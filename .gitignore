@@ -2,3 +2,4 @@ venv/
 *.ipynb
 MLOPS_project9.egg-info/
 logs/
+gcp-key.json
