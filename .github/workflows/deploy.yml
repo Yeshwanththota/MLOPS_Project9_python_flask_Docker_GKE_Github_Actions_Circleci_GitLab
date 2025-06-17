@@ -1,0 +1,48 @@
+name: CI/CD deployment to GKE
+on:
+  push:
+    branches:
+      - main
+  
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GKE_CLUSTER: "mlopsproject9"
+  GKE_REGION: "us-central1"
+  DEPLOYMENT_NAME: "mlops9"
+  REPOSITORY: "us-central1-docker.pkg.dev/lofty-voyage-461011-f1/mlops9"
+  IMAGE: "us-central1-docker.pkg.dev/lofty-voyage-461011-f1/mlops9/mlops_image"
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    container:
+      image: google/cloud-sdk:latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: authenticate with google cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure gcloud
+        run: |
+          gcloud config set project $PROJECT_ID
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: build and push image
+        run: |
+          docker build -t $IMAGE:$GITHUB_SHA .
+          docker push $IMAGE:$GITHUB_SHA
+
+      - name: Configure GKE
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_REGION --project $PROJECT_ID
+
+      - name: deploy to GKE
+        run: |
+          kubectl apply -f kubernetes-deployment.yaml
+          kubectl set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME=$IMAGE:$GITHUB_SHA
+                
