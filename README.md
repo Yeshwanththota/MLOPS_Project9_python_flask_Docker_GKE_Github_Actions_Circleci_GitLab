@@ -7,6 +7,10 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/circleci/circleci-plain.svg" title="CircleCI" alt="CircleCI" width="40" height="40"/>&nbsp; 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" title="GitLab" alt="GitLab" width="40" height="40"/>&nbsp; </p>
 
+**Summary:** Explored and compared multiple CI/CD platforms—CircleCI, GitHub Actions, and GitLab—for automating ML workflows. Each platform was configured to build, test, and deploy ML applications to GKE, demonstrating flexibility and best practices in DevOps.
+
+**Go to mlops_project9_outputs for results**
+
 **Highlights**
 1.	CI-CD using circleci, Github Actions, GitLab
 
